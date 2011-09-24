@@ -7,7 +7,7 @@ class HibernateSpatialOracleGrailsPlugin {
     def dependsOn = [hibernateSpatial: '0.0.1 > *']
     // resources that are excluded from plugin packaging
     def pluginExcludes = [
-        'grails-app/scripts/**/Eclipse.groovy'
+        'grails-app/scripts/**/Eclipse.groovy',
             'grails-app/views/**/*'
     ]
 
