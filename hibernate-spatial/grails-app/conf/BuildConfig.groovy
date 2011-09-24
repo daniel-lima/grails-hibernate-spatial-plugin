@@ -17,11 +17,14 @@ grails.project.dependency.resolution = {
         // uncomment the below to enable remote dependency resolution
         // from public Maven repositories
         //mavenLocal()
-        //mavenCentral()
+        mavenCentral()
         //mavenRepo "http://snapshots.repository.codehaus.org"
         //mavenRepo "http://repository.codehaus.org"
         //mavenRepo "http://download.java.net/maven/2/"
         //mavenRepo "http://repository.jboss.com/maven2/"
+        
+        mavenRepo 'http://download.osgeo.org/webdav/geotools'
+        mavenRepo 'http://www.hibernatespatial.org/repository'
     }
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
