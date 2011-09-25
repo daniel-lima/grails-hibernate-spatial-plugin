@@ -3,6 +3,9 @@ grails.project.test.class.dir = "target/test-classes"
 grails.project.test.reports.dir = "target/test-reports"
 //grails.project.war.file = "target/${appName}-${appVersion}.war"
 grails.project.dependency.resolution = {
+    boolean isNewerGrails = ("$grailsVersion" > "1.3.7") as boolean
+    if (isNewerGrails) {checksums false}
+
     // inherit Grails' default dependencies
     inherits("global") {
         // uncomment to disable ehcache
@@ -24,7 +27,8 @@ grails.project.dependency.resolution = {
         //mavenRepo "http://repository.jboss.com/maven2/"
     }
     dependencies {
-        String hsVersion = ("$grailsVersion" > "1.3.7")? "1.1" : "1.0"
+        if (!isNewerGrails) {ivySettings.setVariable('ivy.checksums', '')}
+        String hsVersion = (isNewerGrails)? "1.1" : "1.0"
         
         compile ("org.hibernatespatial:hibernate-spatial-sqlserver:${hsVersion}") {
             excludes 'hibernate-core'

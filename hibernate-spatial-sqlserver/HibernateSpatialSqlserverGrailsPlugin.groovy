@@ -19,7 +19,7 @@
  */
 class HibernateSpatialSqlserverGrailsPlugin {
     // the plugin version
-    def version = "0.0.1"
+    def version = "0.0.2"
     // the version or versions of Grails the plugin is designed for
     def grailsVersion = "1.2.0 > *"
     // the other plugins this plugin depends on
