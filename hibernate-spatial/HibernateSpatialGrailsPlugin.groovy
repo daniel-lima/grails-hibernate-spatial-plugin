@@ -35,7 +35,7 @@ class HibernateSpatialGrailsPlugin {
     def authorEmail = 'email_daniel_h@yahoo.com.br'
     def title = 'Hibernate Spatial Grails Plugin'
     def description = '''\\
-Brief description of the plugin.
+Provides support for using the Hibernate Spatial (http://www.hibernatespatial.org/) in Grails.
 '''
 
     // URL to the plugin's documentation

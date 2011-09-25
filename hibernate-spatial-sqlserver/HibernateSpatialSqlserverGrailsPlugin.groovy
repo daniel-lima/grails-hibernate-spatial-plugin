@@ -33,9 +33,9 @@ class HibernateSpatialSqlserverGrailsPlugin {
     // TODO Fill in these fields
     def author = 'Daniel Henrique Alves Lima'
     def authorEmail = 'email_daniel_h@yahoo.com.br'
-    def title = 'Hibernate Spatial PostgreSQL Grails Plugin'
+    def title = 'Hibernate Spatial SQL Server Grails Plugin'
     def description = '''\\
-Brief description of the plugin.
+Hibernate Spatial Provider for Microsoft SQL Server (http://www.hibernatespatial.org/hibernate-spatial-sqlserver/).
 '''
 
     // URL to the plugin's documentation

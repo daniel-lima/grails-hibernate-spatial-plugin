@@ -35,7 +35,7 @@ class HibernateSpatialMysqlGrailsPlugin {
     def authorEmail = 'email_daniel_h@yahoo.com.br'
     def title = 'Hibernate Spatial MySQL Grails Plugin'
     def description = '''\\
-Brief description of the plugin.
+Hibernate Spatial Provider for MySQL (http://www.hibernatespatial.org/hibernate-spatial-mysql/).
 '''
 
     // URL to the plugin's documentation

@@ -32,9 +32,9 @@ class HibernateSpatialHdbGrailsPlugin {
     // TODO Fill in these fields
     def author = 'Daniel Henrique Alves Lima'
     def authorEmail = 'email_daniel_h@yahoo.com.br'
-    def title = 'Hibernate Spatial H2 Grails Plugin'
+    def title = 'Hibernate Spatial H2/GeoDB Grails Plugin'
     def description = '''\\
-Brief description of the plugin.
+Hibernate Spatial Provider for H2/GeoDB (http://www.hibernatespatial.org/hibernate-spatial-h2-geodb/).
 '''
 
 

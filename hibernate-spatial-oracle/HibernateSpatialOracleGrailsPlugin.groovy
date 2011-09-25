@@ -35,7 +35,7 @@ class HibernateSpatialOracleGrailsPlugin {
     def authorEmail = 'email_daniel_h@yahoo.com.br'
     def title = 'Hibernate Spatial Oracle Grails Plugin'
     def description = '''\\
-Brief description of the plugin.
+Hibernate Spatial Provider for Oracle (http://www.hibernatespatial.org/hibernate-spatial-oracle/).
 '''
 
     // URL to the plugin's documentation
