@@ -24,7 +24,8 @@ grails.project.dependency.resolution = {
         //mavenRepo "http://repository.jboss.com/maven2/"
     }
     dependencies {
-        compile ('org.hibernatespatial:hibernate-spatial-mysql:1.0') {
+        String hsVersion = ("$grailsVersion" > "1.3.7")? "1.1" : "1.0"
+        compile ("org.hibernatespatial:hibernate-spatial-mysql:${hsVersion}") {
             excludes 'hibernate-core'
         }
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.

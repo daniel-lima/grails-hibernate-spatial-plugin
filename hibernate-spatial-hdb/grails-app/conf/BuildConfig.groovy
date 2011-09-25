@@ -26,8 +26,10 @@ grails.project.dependency.resolution = {
         mavenRepo 'http://repo.opengeo.org/'
     }
     dependencies {
-        compile ('org.hibernatespatial:hibernate-spatial-h2-geodb:1.0') {
-            excludes 'hibernate-core'
+        String hsVersion = ("$grailsVersion" > "1.3.7")? "1.1" : "1.0"
+        //println "hsVersion ${hsVersion}"
+        compile ("org.hibernatespatial:hibernate-spatial-h2-geodb:${hsVersion}") {
+            excludes 'hibernate-core', 'h2'
         }
 
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.

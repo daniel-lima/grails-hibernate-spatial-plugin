@@ -24,9 +24,9 @@ grails.project.dependency.resolution = {
         //mavenRepo "http://repository.jboss.com/maven2/"
     }
     dependencies {
-        ivySettings.setVariable('ivy.checksums', '')
+        String hsVersion = ("$grailsVersion" > "1.3.7")? "1.1" : "1.0"
         
-        compile ('org.hibernatespatial:hibernate-spatial-sqlserver:1.0') {
+        compile ("org.hibernatespatial:hibernate-spatial-sqlserver:${hsVersion}") {
             excludes 'hibernate-core'
         }
 

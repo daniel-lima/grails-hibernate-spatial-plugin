@@ -25,8 +25,9 @@ grails.project.dependency.resolution = {
     }
     dependencies {
         ivySettings.setVariable('ivy.checksums', '')
-                
-        compile ('org.hibernatespatial:hibernate-spatial-postgis:1.0') {
+
+        String hsVersion = ("$grailsVersion" > "1.3.7")? "1.1" : "1.0"
+        compile ("org.hibernatespatial:hibernate-spatial-postgis:${hsVersion}") {
             excludes 'hibernate-core'
         }
         
