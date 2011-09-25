@@ -33,7 +33,7 @@ class HibernateSpatialSqlserverGrailsPlugin {
     // TODO Fill in these fields
     def author = 'Daniel Henrique Alves Lima'
     def authorEmail = 'email_daniel_h@yahoo.com.br'
-    def title = 'Hibernate Spatial SQL Server Grails Plugin'
+    def title = 'Hibernate Spatial Microsoft SQL Server Grails Plugin'
     def description = '''\\
 Hibernate Spatial Provider for Microsoft SQL Server (http://www.hibernatespatial.org/hibernate-spatial-sqlserver/).
 '''
