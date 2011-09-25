@@ -83,6 +83,13 @@ _hibernateSpatialUpdateConfig = {Map dataSourceOptions = [:] ->
             throw e
         }
     }
+    
+    println ''
+    println '========================================================================='
+    println 'Attention! Make sure you have:'
+    println '1. A database with spatial extensions properly installed and configured;'
+    println '2. An appropriate JDBC driver available on the classpath;'
+    println '3. The JDBC connection URL configured according to your driver.'
 }
 
 _hibernateSpatialUpdateDataSourceConfig = {Map dataSourceOptions = [:] ->
