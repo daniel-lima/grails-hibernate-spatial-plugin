@@ -23,7 +23,7 @@ class HibernateSpatialPostgresqlGrailsPlugin {
     // the version or versions of Grails the plugin is designed for
     def grailsVersion = "1.2.0 > *"
     // the other plugins this plugin depends on
-    def dependsOn = [hibernateSpatial: '0.0.1 > *']
+    def dependsOn = [hibernateSpatial: "${version}"]
     // resources that are excluded from plugin packaging
     def pluginExcludes = [
         'scripts/**/Eclipse.groovy',
