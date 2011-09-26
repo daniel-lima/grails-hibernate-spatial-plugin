@@ -37,6 +37,15 @@ _hibernateSpatialUpdateConfig = {Map dataSourceOptions = [:] ->
     
     if (configFile.exists()) {
         try {
+            Closure printUserTypes = {writer, String indentation = '' ->
+                for (geometry in ['Geometry', 
+                        'GeometryCollection', 'LineString', 'Point', 'Polygon', 
+                        'MultiLineString', 'MultiPoint', 'MultiPolygon', 
+                        'LinearRing', 'Puntal', 'Lineal', 'Polygonal']) {                
+                    writer.println("${indentation}\'user-type\'(type:org.hibernatespatial.GeometryUserType, class:com.vividsolutions.jts.geom.${geometry})")
+                }
+            }
+            
             //File newConfigFile = new File(configDir, "${configFile.name}.tmp")
             File newConfigFile = File.createTempFile(configFile.name, 'tmp', configDir)
             boolean foundDefaultMapping = false
@@ -52,7 +61,7 @@ _hibernateSpatialUpdateConfig = {Map dataSourceOptions = [:] ->
                         if (!foundGeometryType) {
                             if (!geometryTypePattern.matcher(line).matches()) {
                                 writer.println('   /* Added by the Hibernate Spatial Plugin. */')
-                                writer.println('   \'user-type\'(type:org.hibernatespatial.GeometryUserType, class:com.vividsolutions.jts.geom.Geometry)')
+                                printUserTypes(writer, '   ')
                                 fileChanged = true
                             }
                             foundGeometryType = true 
@@ -64,7 +73,7 @@ _hibernateSpatialUpdateConfig = {Map dataSourceOptions = [:] ->
                 if (!foundDefaultMapping) {
                     writer.println('/* Added by the Hibernate Spatial Plugin. */')
                     writer.println('grails.gorm.default.mapping = {')
-                    writer.println('   \'user-type\'(type:org.hibernatespatial.GeometryUserType, class:com.vividsolutions.jts.geom.Geometry)')
+                    printUserTypes(writer, '   ')
                     writer.println('}')
                     fileChanged = true
                 }
@@ -85,10 +94,10 @@ _hibernateSpatialUpdateConfig = {Map dataSourceOptions = [:] ->
     }
     
     println ''
-    println '========================================================================='
+    println '================================================================'
     println 'Attention! Make sure you have:'
-    println '1. A database with spatial extensions properly installed and configured;'
-    println '2. An appropriate JDBC driver available on the classpath;'
+    println '1. A "spatially enabled" database;'
+    println '2. The appropriate JDBC driver available on the classpath;'
     println '3. The JDBC connection URL configured according to your driver.'
 }
 
