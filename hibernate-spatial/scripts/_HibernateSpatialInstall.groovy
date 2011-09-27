@@ -35,14 +35,20 @@ _hibernateSpatialUpdateConfig = {Map dataSourceOptions = [:] ->
     File configDir = new File(grailsSettings.baseDir, '/grails-app/conf/')
     File configFile = new File(configDir, 'Config.groovy')
     
+    Set geometryClasses = new LinkedHashSet()
+    for (geometry in ['Geometry',
+        'GeometryCollection', 'LineString', 'Point', 'Polygon',
+        'MultiLineString', 'MultiPoint', 'MultiPolygon',
+        'LinearRing', 'Puntal', 'Lineal', 'Polygonal']) {    
+        geometryClasses << "com.vividsolutions.jts.geom.${geometry}".toString()
+    }
+    
+    
     if (configFile.exists()) {
         try {
             Closure printUserTypes = {writer, String indentation = '' ->
-                for (geometry in ['Geometry', 
-                        'GeometryCollection', 'LineString', 'Point', 'Polygon', 
-                        'MultiLineString', 'MultiPoint', 'MultiPolygon', 
-                        'LinearRing', 'Puntal', 'Lineal', 'Polygonal']) {                
-                    writer.println("${indentation}\'user-type\'(type:org.hibernatespatial.GeometryUserType, class:com.vividsolutions.jts.geom.${geometry})")
+                for (geometryClass in geometryClasses) {                
+                    writer.println("${indentation}\'user-type\'(type:org.hibernatespatial.GeometryUserType, class:${geometryClass})")
                 }
             }
             
@@ -53,30 +59,58 @@ _hibernateSpatialUpdateConfig = {Map dataSourceOptions = [:] ->
             boolean fileChanged = false
             
             Pattern userTypePattern = Pattern.compile('.*["\']user-type["\'].*')
-            Pattern geometryTypePattern = Pattern.compile('.*\\W*GeometryUserType\\W*.*')
-            newConfigFile.withPrintWriter {writer ->
-                configFile.eachLine {line -> 
-                    if (userTypePattern.matcher(line).matches()) {
-                        foundDefaultMapping = foundDefaultMapping || true
-                        if (!foundGeometryType) {
-                            if (!geometryTypePattern.matcher(line).matches()) {
-                                writer.println('   /* Added by the Hibernate Spatial Plugin. */')
-                                printUserTypes(writer, '   ')
-                                fileChanged = true
+            Pattern geometryTypePattern = Pattern.compile('.*class\\s*:\\s*([A-Za-z\\.]+).*')
+            List userTypeLines = []
+            
+            newConfigFile.withPrintWriter {writer ->                
+                configFile.withReader {reader ->
+                    String line = null
+
+                    while ((line = reader.readLine()) != null) {
+                        if (!foundDefaultMapping) {
+                            while (line != null && userTypePattern.matcher(line).matches()) {
+                                userTypeLines << line
+                                line = reader.readLine()
                             }
-                            foundGeometryType = true 
-                        }                                           
-                    } 
-                    writer.println(line)
-                }
-                
-                if (!foundDefaultMapping) {
-                    writer.println('/* Added by the Hibernate Spatial Plugin. */')
-                    writer.println('grails.gorm.default.mapping = {')
-                    printUserTypes(writer, '   ')
-                    writer.println('}')
-                    fileChanged = true
-                }
+
+                            if (userTypeLines.size() > 0) {
+                                for (userTypeLine in userTypeLines) {                                    
+                                    Matcher matcher = geometryTypePattern.matcher(userTypeLine)
+                                    if (matcher.matches()) {
+                                        String geometryClass = matcher.replaceAll('$1')
+                                        //println "geometryClass ${geometryClass}"
+                                        geometryClasses.remove(geometryClass)
+                                        
+                                    }
+                                }
+
+                                println "geometryClasses ${geometryClasses}"
+                                if (geometryClasses.size() > 0) {
+                                    writer.println('   /* Added by the Hibernate Spatial Plugin. */')
+                                    printUserTypes(writer, '   ')
+
+                                    for (userTypeLine in userTypeLines) {
+                                        writer.println(userTypeLine)
+                                    }
+                                    userTypeLines.clear()
+                                    fileChanged = true
+                                }
+                                
+                                foundDefaultMapping = true
+                            }
+                        }
+
+                        writer.println(line)
+                    }
+
+                    if (!foundDefaultMapping) {
+                        writer.println('/* Added by the Hibernate Spatial Plugin. */')
+                        writer.println('grails.gorm.default.mapping = {')
+                        printUserTypes(writer, '   ')
+                        writer.println('}')
+                        fileChanged = true
+                    }
+                }                                            
             }
             
             if (!fileChanged) {
